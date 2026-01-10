@@ -2,13 +2,13 @@ const addTodo = window.document.querySelector('button#add');
 const todoList = window.document.querySelector('ul#tarefas');
 const newTodo = window.document.querySelector('input#novaTarefa');
 
-let allTodos = [];
+let allTodos = carregar();
+atualizarLista();
 
 addTodo.addEventListener('click', function (e) {
     e.preventDefault(); //faz com que a tela nao reinicie 
     add();
 })
-
 
 function add() {
     const todoText = newTodo.value.trim(); //trim tira espaços indesejados
@@ -16,6 +16,7 @@ function add() {
     if (todoText.length > 0) {
         allTodos.push(todoText); //jogando pro array
         atualizarLista();
+        salvar();
         newTodo.value = ""; //limpando o campo
     } else {
         alert("A tarefa deve ter ao menos uma palavra!"); //feedback do pq deu errado
@@ -30,10 +31,9 @@ function atualizarLista() {
     })
 }
 
-
 function createTodoItem(todo, todoIndex) {
     const todoLi = window.document.createElement("li");
-    const todoID = "todo-"+todoIndex; 
+    const todoID = "todo-" + todoIndex;
 
     todoLi.className = "tarefa";
     todoLi.innerHTML = `
@@ -54,5 +54,27 @@ function createTodoItem(todo, todoIndex) {
           </svg>
         </button>
     `;
+
+    const deletar = todoLi.querySelector(".deletar-Tarefa");
+    deletar.addEventListener('click', () =>{
+        deleteTodoItem(todoIndex); 
+    })
     return todoLi;
+}
+
+function deleteTodoItem(todoIndex){ 
+    allTodos = allTodos.filter((_, i)=> i !== todoIndex);
+    salvar(); 
+    atualizarLista();  
+}
+
+
+function salvar() {
+    const todosJson = JSON.stringify(allTodos);
+    localStorage.setItem("tarefas", todosJson);
+}
+
+function carregar() {
+    const tarefas = localStorage.getItem("tarefas") || "[]";
+    return JSON.parse(tarefas);
 }
