@@ -14,7 +14,12 @@ function add() {
     const todoText = newTodo.value.trim(); //trim tira espaços indesejados
 
     if (todoText.length > 0) {
-        allTodos.push(todoText); //jogando pro array
+        const tarefaObj = { 
+            texto: todoText,
+            completed: false
+        }
+
+        allTodos.push(tarefaObj); //jogando pro array
         atualizarLista();
         salvar();
         newTodo.value = ""; //limpando o campo
@@ -34,6 +39,8 @@ function atualizarLista() {
 function createTodoItem(todo, todoIndex) {
     const todoLi = window.document.createElement("li");
     const todoID = "todo-" + todoIndex;
+    const textoTarefa = todo.texto; 
+
 
     todoLi.className = "tarefa";
     todoLi.innerHTML = `
@@ -45,7 +52,7 @@ function createTodoItem(todo, todoIndex) {
           </svg>
         </label>
         <label for="${todoID}" class="texto-tarefa">
-            ${todo}
+            ${textoTarefa}
         </label>
         <button class="deletar-Tarefa">
           <svg fill="var(--darker)" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
@@ -59,6 +66,14 @@ function createTodoItem(todo, todoIndex) {
     deletar.addEventListener('click', () =>{
         deleteTodoItem(todoIndex); 
     })
+
+    const checkbox = todoLi.querySelector("input");
+    checkbox.addEventListener("change", ()=>{
+        allTodos[todoIndex].completed = checkbox.checked; 
+        salvar();
+    })
+
+    checkbox.checked = todo.completed; 
     return todoLi;
 }
 
