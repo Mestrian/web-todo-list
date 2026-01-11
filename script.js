@@ -1,20 +1,47 @@
+//definindo as partes do documento referenciadas 
 const addTodo = window.document.querySelector('button#add');
 const todoList = window.document.querySelector('ul#tarefas');
 const newTodo = window.document.querySelector('input#novaTarefa');
+const themeSwitch = window.document.querySelector('button#temaSwitch');
 
+//carregando dados salvos
 let allTodos = carregar();
-atualizarLista();
+const temaSalvo = localStorage.getItem('theme') || 'dark';
 
+//execucoes iniciais
+aplicarTema(temaSalvo);
+atualizarLista();//atualizando lista caso existam tarefas
+
+//definindo os listeners necessarios
 addTodo.addEventListener('click', function (e) {
     e.preventDefault(); //faz com que a tela nao reinicie 
     add();
 })
 
+themeSwitch.addEventListener('click', () => {
+    const temaAtual = localStorage.getItem('theme');
+    const proximoTema = temaAtual == 'dark' ? 'light' : 'dark';
+    aplicarTema(proximoTema);
+})
+
+function aplicarTema(novoTema) {
+    if (novoTema == 'light') {
+        window.document.body.classList.add('lightTheme');
+    } else {
+        document.body.classList.remove('lightTheme');
+    }
+    localStorage.setItem('theme', novoTema);
+}
+
+
+
+//processamento de dados
+
 function add() {
     const todoText = newTodo.value.trim(); //trim tira espaços indesejados
 
     if (todoText.length > 0) {
-        const tarefaObj = { 
+        const tarefaObj = {
             texto: todoText,
             completed: false
         }
@@ -23,11 +50,21 @@ function add() {
         atualizarLista();
         salvar();
         newTodo.value = ""; //limpando o campo
+
     } else {
         alert("A tarefa deve ter ao menos uma palavra!"); //feedback do pq deu errado
     }
 }
 
+function deleteTodoItem(todoIndex) {
+    allTodos = allTodos.filter((_, i) => i !== todoIndex);
+    salvar();
+    atualizarLista();
+}
+
+
+
+//manipulacao interface
 function atualizarLista() {
     todoList.innerHTML = "";
     allTodos.forEach((todo, todoIndex) => {
@@ -39,7 +76,7 @@ function atualizarLista() {
 function createTodoItem(todo, todoIndex) {
     const todoLi = window.document.createElement("li");
     const todoID = "todo-" + todoIndex;
-    const textoTarefa = todo.texto; 
+    const textoTarefa = todo.texto;
 
 
     todoLi.className = "tarefa";
@@ -63,27 +100,21 @@ function createTodoItem(todo, todoIndex) {
     `;
 
     const deletar = todoLi.querySelector(".deletar-Tarefa");
-    deletar.addEventListener('click', () =>{
-        deleteTodoItem(todoIndex); 
+    deletar.addEventListener('click', () => {
+        deleteTodoItem(todoIndex);
     })
 
     const checkbox = todoLi.querySelector("input");
-    checkbox.addEventListener("change", ()=>{
-        allTodos[todoIndex].completed = checkbox.checked; 
+    checkbox.addEventListener("change", () => {
+        allTodos[todoIndex].completed = checkbox.checked;
         salvar();
     })
 
-    checkbox.checked = todo.completed; 
+    checkbox.checked = todo.completed;
     return todoLi;
 }
 
-function deleteTodoItem(todoIndex){ 
-    allTodos = allTodos.filter((_, i)=> i !== todoIndex);
-    salvar(); 
-    atualizarLista();  
-}
-
-
+//LocalStorage
 function salvar() {
     const todosJson = JSON.stringify(allTodos);
     localStorage.setItem("tarefas", todosJson);
