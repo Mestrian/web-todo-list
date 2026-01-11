@@ -8,19 +8,30 @@
 }
 
 :root {
-    --lightest: #fffcf2; 
+    --textoInput: #fffcf2; 
+    --textoTarefa: #252422; 
     --light: #ccc5b9; 
     --highlight: #c75122; 
     --dark: #403d39;
-    --darker: #252422;
+    --background: #252422;
 
-    /* --lightest: #E0E1DD; 
+    /* --textoTarefa: #E0E1DD; 
     --light: #778DA9; 
     --medium: #415A77; 
     --dark: #1B263B;
-    --darker: #0D1B2A; */
+    --background: #0D1B2A; */
+}
+
+.lightTheme{
+    --background:  #fffcf2; 
+    --textoInput: #252422; 
 
 }
+
+#temaSwitch, #add, .tarefa .texto-tarefa, .checkbox-tarefa-custom, .deletar-Tarefa  {
+    cursor: pointer;
+}
+
 
 /* STYLING PRINCIPAL  */
 html {
@@ -30,7 +41,7 @@ html {
 body {
     min-height: 100vh;
     padding: 10px;
-    background-color: var(--darker);
+    background-color: var(--background);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -46,6 +57,38 @@ header {
     color: var(--highlight);
     border-bottom: 2px solid var(--dark);
 }
+
+#temaSwitch {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: var(--light);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+#temaSwitch svg{
+    fill: var(--highlight);
+}
+
+#temaSwitch svg:first-child{
+    display:none;
+}
+
+.lightTheme #temaSwitch svg:last-child{
+    display:none;
+}
+
+.lightTheme #temaSwitch svg:first-child{
+    display: block;
+}
+
+
 
 main { 
     width: 700px; 
@@ -66,7 +109,7 @@ form {
     border: 2px solid var(--light); 
     border-radius: 1000px; 
     font: inherit;
-    color: var(--lightest); 
+    color: var(--textoInput); 
     caret-color: var(--light);
 }
 
@@ -84,8 +127,7 @@ form {
     border: none;
     border-radius: 1000px;
     font: inherit;
-    color: var(--darker); 
-    cursor: pointer; 
+    color: var(--textoTarefa); 
 } 
 
 .tarefa{ 
@@ -102,13 +144,12 @@ form {
     padding-right: 0;
     flex-grow: 1;
     transition: 200ms ease;
-    color: var(--darkest);
+    color: var(--textoTarefa);
 } 
 
 .deletar-Tarefa { 
     background: none;
     border: none;
-    cursor: pointer;
 }
 
 .deletar-Tarefa svg{
@@ -120,7 +161,7 @@ form {
 }
 
 .checkbox-tarefa-custom { 
-    border: 2px solid var(--darker); 
+    border: 2px solid var(--background); 
     border-radius: 50%;
     min-height: 20px;
     min-width: 20px;
@@ -136,12 +177,12 @@ input[type = "checkbox"]:checked ~ .checkbox-tarefa-custom {
 }
 
 input[type = "checkbox"]:checked ~ .checkbox-tarefa-custom svg{
-    fill: var(--darker);
+    fill: var(--background);
 }
 
 input[type = "checkbox"]:checked ~ .texto-tarefa { 
     text-decoration: line-through;
-    color: var(--darker);
+    color: var(--background);
 }
 
 input[type = "checkbox"] {
@@ -160,6 +201,12 @@ input[type = "checkbox"] {
         margin-top: 10px;
         padding: 10px;
         height: auto;
+    }
+
+    #temaSwitch {
+
+        height: 35px;
+        width: 35px;
     }
 
 }
