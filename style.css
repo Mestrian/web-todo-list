@@ -8,11 +8,18 @@
 }
 
 :root {
-    --lightest: #E0E1DD; 
+    --lightest: #fffcf2; 
+    --light: #ccc5b9; 
+    --highlight: #c75122; 
+    --dark: #403d39;
+    --darker: #252422;
+
+    /* --lightest: #E0E1DD; 
     --light: #778DA9; 
     --medium: #415A77; 
     --dark: #1B263B;
-    --darker: #0D1B2A;
+    --darker: #0D1B2A; */
+
 }
 
 /* STYLING PRINCIPAL  */
@@ -36,7 +43,8 @@ header {
     font-weight: 800;
     text-transform: uppercase;
     text-align: center;
-    color: whitesmoke;
+    color: var(--highlight);
+    border-bottom: 2px solid var(--dark);
 }
 
 main { 
@@ -83,7 +91,7 @@ form {
 .tarefa{ 
     margin-bottom: 15px; 
     padding: 0 16px;
-    background-color: var(--medium);
+    background-color: var(--light);
     display: flex;
     align-items: center;
     border-radius: 600px; 
@@ -94,6 +102,7 @@ form {
     padding-right: 0;
     flex-grow: 1;
     transition: 200ms ease;
+    color: var(--darkest);
 } 
 
 .deletar-Tarefa { 
@@ -122,7 +131,8 @@ form {
 }
 
 input[type = "checkbox"]:checked ~ .checkbox-tarefa-custom {
-    background-color: var(--light);
+    background-color: var(--highlight);
+    border-color: var(--highlight);
 }
 
 input[type = "checkbox"]:checked ~ .checkbox-tarefa-custom svg{
@@ -131,7 +141,7 @@ input[type = "checkbox"]:checked ~ .checkbox-tarefa-custom svg{
 
 input[type = "checkbox"]:checked ~ .texto-tarefa { 
     text-decoration: line-through;
-    color: #0D1B2A;
+    color: var(--darker);
 }
 
 input[type = "checkbox"] {
